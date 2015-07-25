@@ -16,12 +16,12 @@ function takePicture() {
   shutter();
   generateImage().then(function(data){
     try {
-      debug('shutter 押したよ！');
+      // debug('shutter 押したよ！');
       data = data.split(',')[1]
-      debug("app://" + data);
+      // debug("app://" + data);
       location.href = "app://" + data;
     } catch (e) {
-      debug(e);
+      // debug(e);
       console.log(e);
     }
   });
