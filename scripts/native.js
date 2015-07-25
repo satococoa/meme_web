@@ -16,13 +16,20 @@ function takePicture() {
   shutter();
   generateImage().then(function(data){
     try {
+      debug('shutter 押したよ！');
       data = data.split(',')[1]
-      console.log(data);
-      location.href("app://" + data);
+      debug("app://" + data);
+      location.href = "app://" + data;
     } catch (e) {
+      debug(e);
       console.log(e);
     }
   });
+}
+
+function debug(msg) {
+  var debug = $("#debug");
+  debug.text(debug.text() + msg);
 }
 
 // フレーム操作
