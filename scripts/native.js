@@ -13,6 +13,7 @@ function capture(data) {
 
 // 撮影
 function takePicture() {
+  shutter();
   generateImage().then(function(data){
     try {
       data = data.split(',')[1]
