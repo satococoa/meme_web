@@ -1,0 +1,29 @@
+﻿@charset "utf-8";
+
+/*RESET
+----------------------*/
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/*----------------------*/
+
+body{
+	background-color:#C5E5D7;/*背景*/
+	text-align:center;
+	color:#74630B;
+	}
+	
+canvas{
+	width:550px;
+    height:309x;
+	margin:10px;
+	background:#FFFFFF
+	}
+
+#photo{
+
+
+;
+	}
