@@ -49,8 +49,6 @@ canvas{
 	position: absolute;
 	z-index: 50;
 	background-color: #000;
-	/*opacity: 0;*/
-	opacity: .6;
 }
 
 #generated {

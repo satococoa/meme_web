@@ -134,35 +134,19 @@ function shutter() {
   }).css({
     height: height,
     width: width,
-    top: - height
+    top: 0
   });
-  var bottom = $('<div/>').attr({
-    id: 'bottom',
-    class: 'shutter'
-  }).css({
-    height: height,
-    width: width,
-    top: height
-  });
-  $('body').append(upper).append(bottom);
+  $('body').append(upper);
 
-  var duration = 100;
-
-  var centerY = height / 2;
+  var duration = 50;
   upper.animate({
-    top: - height + centerY
+    opacity: .6
   }, duration, function(){
     upper.animate({
-      top: - height
-    }, duration, function(){})
-  });
-
-  bottom.animate({
-    top: - centerY
-  }, duration, function(){
-    bottom.animate({
-      top: height
-    }, duration, function(){})
+      opacity: 0
+    }, duration, function(){
+      $('upper').remove()
+    });
   });
 }
 
