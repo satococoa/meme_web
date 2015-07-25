@@ -35,7 +35,13 @@ function debug(msg) {
 // フレーム操作
 
 var frames = [
-  'jins', 'frame1', 'gradation'
+  'jins',
+  'frame1',
+  'frame2',
+  'frame3',
+  'frame4',
+  'frame5',
+  'frame6',
 ];
 var currentFrameIndex = 0;
 
@@ -50,7 +56,7 @@ function nextFrame() {
 
 function prevFrame() {
   if (--currentFrameIndex < 0) {
-    currentFrameIndex = 2;
+    currentFrameIndex = frames.length - 1;
   }
   var frame = frames[currentFrameIndex];
   clearFrame();
