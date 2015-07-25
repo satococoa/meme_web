@@ -1,5 +1,5 @@
 function capture(data) {
-  var canvas = $('#frame')[0];
+  var canvas = document.getElementById('frame');
   var ctx = canvas.getContext('2d');
 
   var prefix = "data:image/jpeg;base64,";
@@ -9,4 +9,10 @@ function capture(data) {
   img.onload = function(){
     ctx.drawImage(img, 0, 0, 320, 320);
   };
+}
+
+function clear() {
+  var canvas = document.getElementById('frame');
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 320, 320);
 }
