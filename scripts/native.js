@@ -44,6 +44,14 @@ var frames = [
   'frame6',
 ];
 var currentFrameIndex = 0;
+// preload
+frames.map(function(frameId){
+  var frame = new Image();
+  frame.src = 'images/' + frameId + '.png';
+  frame.onload = function() {
+    console.log("preload: " + frameId);
+  }
+});
 
 function nextFrame() {
   if (++currentFrameIndex >= frames.length) {
