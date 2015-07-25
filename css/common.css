@@ -14,16 +14,28 @@ body{
 	text-align:center;
 	color:#74630B;
 	}
-	
+
 canvas{
-	width:550px;
-    height:309x;
 	margin:10px;
-	background:#FFFFFF
-	}
+	background:#FFFFFF;
+}
 
-#photo{
+#photo {
+	position: relative;
+}
 
+#photo canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
 
-;
-	}
+#photo #image {
+	z-index: 0;
+	background: #FFFFFF;
+}
+
+#photo #frame {
+	z-index: 10;
+	background: rgba(0, 0, 0, 0);
+}
