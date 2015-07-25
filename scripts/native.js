@@ -7,7 +7,6 @@ function capture(data) {
   img.src = prefix+data;
 
   img.onload = function(){
-    console.log('onload');
     ctx.drawImage(img, 0, 0, 320, 320);
   };
 }
