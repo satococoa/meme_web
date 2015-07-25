@@ -60,3 +60,26 @@ function timestamp() {
 
   return year + '.' + month + '.' + date;
 }
+
+var frames = [
+  'jins', 'frame1', 'gradation'
+];
+var currentFrameIndex = 0;
+
+function nextFrame() {
+  if (++currentFrameIndex >= frames.length) {
+    currentFrameIndex = 0;
+  }
+  var frame = frames[currentFrameIndex];
+  clearFrame();
+  setFrame(frame);
+}
+
+function prevFrame() {
+  if (--currentFrameIndex < 0) {
+    currentFrameIndex = 2;
+  }
+  var frame = frames[currentFrameIndex];
+  clearFrame();
+  setFrame(frame);
+}
