@@ -15,6 +15,7 @@ function capture(data) {
 function takePicture() {
   generateImage().then(function(data){
     try {
+      data = data.split(',')[1]
       console.log(data);
       location.href("app://" + data);
     } catch (e) {
@@ -173,6 +174,5 @@ function generateImage() {
 
 function getGeneratedImage() {
   var generated = document.getElementById('generated');
-
-  return generated.toDataURL();
+  return generated.toDataURL('image/jpeg');
 }
