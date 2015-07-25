@@ -52,3 +52,7 @@ canvas{
 	/*opacity: 0;*/
 	opacity: .6;
 }
+
+#generated {
+	display: none;
+}

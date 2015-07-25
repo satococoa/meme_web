@@ -11,6 +11,46 @@ function capture(data) {
   };
 }
 
+// 撮影
+function takePicture() {
+  generateImage().then(function(data){
+    try {
+      console.log(data);
+      location.href("app://" + data);
+    } catch (e) {
+      console.log(e);
+    }
+  });
+}
+
+// フレーム操作
+
+var frames = [
+  'jins', 'frame1', 'gradation'
+];
+var currentFrameIndex = 0;
+
+function nextFrame() {
+  if (++currentFrameIndex >= frames.length) {
+    currentFrameIndex = 0;
+  }
+  var frame = frames[currentFrameIndex];
+  clearFrame();
+  setFrame(frame);
+}
+
+function prevFrame() {
+  if (--currentFrameIndex < 0) {
+    currentFrameIndex = 2;
+  }
+  var frame = frames[currentFrameIndex];
+  clearFrame();
+  setFrame(frame);
+}
+
+
+// 以下 private
+
 function clearImage() {
   var canvas = document.getElementById('image');
   var ctx = canvas.getContext('2d');
@@ -61,29 +101,6 @@ function timestamp() {
   return year + '.' + month + '.' + date;
 }
 
-var frames = [
-  'jins', 'frame1', 'gradation'
-];
-var currentFrameIndex = 0;
-
-function nextFrame() {
-  if (++currentFrameIndex >= frames.length) {
-    currentFrameIndex = 0;
-  }
-  var frame = frames[currentFrameIndex];
-  clearFrame();
-  setFrame(frame);
-}
-
-function prevFrame() {
-  if (--currentFrameIndex < 0) {
-    currentFrameIndex = 2;
-  }
-  var frame = frames[currentFrameIndex];
-  clearFrame();
-  setFrame(frame);
-}
-
 function shutter() {
   var height = $(window).height();
   var width = $(window).width();
@@ -124,4 +141,38 @@ function shutter() {
       top: height
     }, duration, function(){})
   });
+}
+
+function generateImage() {
+  var image = document.getElementById('image');
+  var frame = document.getElementById('frame');
+  var timestamp = document.getElementById('timestamp');
+
+  var generated = document.getElementById('generated');
+  var ctx = generated.getContext('2d');
+
+  var datas = [
+    image.toDataURL('image/png'),
+    frame.toDataURL('image/png'),
+    timestamp.toDataURL('image/png')
+  ];
+
+  return Promise.all(datas.map(function(str){
+    return new Promise(function(resolve, reject){
+      var image = new Image();
+      image.src = str;
+      image.onload = function() {
+        ctx.drawImage(image, 0, 0, 550, 309);
+        resolve();
+      };
+    });
+  })).then(function(){
+    return getGeneratedImage();
+  });
+}
+
+function getGeneratedImage() {
+  var generated = document.getElementById('generated');
+
+  return generated.toDataURL();
 }
