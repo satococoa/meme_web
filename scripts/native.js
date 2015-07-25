@@ -83,3 +83,45 @@ function prevFrame() {
   clearFrame();
   setFrame(frame);
 }
+
+function shutter() {
+  var height = $(window).height();
+  var width = $(window).width();
+
+  var upper = $('<div/>').attr({
+    id: 'upper',
+    class: 'shutter'
+  }).css({
+    height: height,
+    width: width,
+    top: - height
+  });
+  var bottom = $('<div/>').attr({
+    id: 'bottom',
+    class: 'shutter'
+  }).css({
+    height: height,
+    width: width,
+    top: height
+  });
+  $('body').append(upper).append(bottom);
+
+  var duration = 100;
+
+  var centerY = height / 2;
+  upper.animate({
+    top: - height + centerY
+  }, duration, function(){
+    upper.animate({
+      top: - height
+    }, duration, function(){})
+  });
+
+  bottom.animate({
+    top: - centerY
+  }, duration, function(){
+    bottom.animate({
+      top: height
+    }, duration, function(){})
+  });
+}
