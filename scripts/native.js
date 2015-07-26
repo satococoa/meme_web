@@ -5,7 +5,7 @@ function init() {
 
 var faces = [ ];
 function face(data) {
-  debug(data);
+  data = JSON.parse(data);
   // 座標系の計算
   faces = data.map(function(d){
     var x = d[0] / 1280.0 * 550.0;
