@@ -1,3 +1,3 @@
 $(function(){
-  setFrame('jins');
+  init();
 });

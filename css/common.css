@@ -51,6 +51,10 @@ canvas{
 	background-color: #000;
 }
 
-#generated {
+#generated, #aura {
 	display: none;
+}
+
+#generated {
+	z-index: 40;
 }

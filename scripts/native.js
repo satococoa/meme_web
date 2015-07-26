@@ -1,3 +1,8 @@
+// 初期化処理
+function init() {
+  setFrame('jins');
+}
+
 function capture(data) {
   var canvas = document.getElementById('image');
   var ctx = canvas.getContext('2d');
@@ -16,10 +21,12 @@ function takePicture() {
   shutter();
   generateImage().then(function(data){
     try {
-      // debug('shutter 押したよ！');
-      data = data.split(',')[1]
-      // debug("app://" + data);
+      data = data.split(',')[1];
       location.href = "app://" + data;
+      $('#generated').show();
+      setTimeout(function(){
+        $('#generated').hide();
+      }, 1500);
     } catch (e) {
       // debug(e);
       console.log(e);
@@ -69,6 +76,19 @@ function prevFrame() {
   var frame = frames[currentFrameIndex];
   clearFrame();
   setFrame(frame);
+}
+
+// オーラ操作
+function setAura(auraId) {
+  var aura = document.getElementById('aura');
+  var ctx = aura.getContext('2d');
+
+  var image = new Image();
+  // image.src = 'images/aura' + auraId + '.png';
+  image.src = 'images/aura1.png';
+  image.onload = function() {
+    ctx.drawImage(image, 0, 0, 550, 309);
+  };
 }
 
 
@@ -152,6 +172,7 @@ function shutter() {
 
 function generateImage() {
   var image = document.getElementById('image');
+  var aura = document.getElementById('aura');
   var frame = document.getElementById('frame');
   var timestamp = document.getElementById('timestamp');
 
@@ -160,11 +181,12 @@ function generateImage() {
 
   var datas = [
     image.toDataURL('image/png'),
+    aura.toDataURL('image/png'),
     frame.toDataURL('image/png'),
     timestamp.toDataURL('image/png')
   ];
 
-  return Promise.all(datas.map(function(str){
+  return Promise.all(datas.map(function(str, i){
     return new Promise(function(resolve, reject){
       var image = new Image();
       image.src = str;
