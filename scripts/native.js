@@ -27,10 +27,13 @@ function capture(data) {
   var img = new Image();
   img.src = prefix+data;
 
+  processing = false;
   img.onload = function() {
     ctx.clearRect(0, 0, 550, 309);
     ctx.drawImage(img, 0, 0, 550, 309);
-    addGlasses();
+    addGlasses().then(function(){
+      processing = true;
+    });
   };
 }
 
