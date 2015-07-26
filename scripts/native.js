@@ -28,6 +28,7 @@ function capture(data) {
   img.src = prefix+data;
 
   img.onload = function() {
+    ctx.clearRect(0, 0, 550, 309);
     ctx.drawImage(img, 0, 0, 550, 309);
     addGlasses();
   };
@@ -78,6 +79,19 @@ frames.map(function(frameId){
     console.log("preload: " + frameId);
   }
 });
+var auras = [
+  'aura1',
+  'aura2',
+  'aura3',
+  'aura4'
+];
+auras.map(function(auraId){
+  var frame = new Image();
+  frame.src = 'images/' + auraId + '.png';
+  frame.onload = function() {
+    console.log("preload: " + auraId);
+  }
+});
 
 function nextFrame() {
   if (++currentFrameIndex >= frames.length) {
@@ -115,12 +129,6 @@ function setAura(auraId) {
 
 
 // 以下 private
-
-function clearImage() {
-  var canvas = document.getElementById('image');
-  var ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, 550, 309);
-}
 
 function setFrame(frameId) {
   var canvas = document.getElementById('frame');
