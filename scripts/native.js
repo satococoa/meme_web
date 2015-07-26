@@ -38,19 +38,21 @@ function capture(data) {
 function takePicture() {
   processing = false;
   shutter();
-  generateImage().then(function(data){
-    try {
-      data = data.split(',')[1];
-      location.href = "app://" + data;
-      $('#generated').show();
-      setTimeout(function(){
-        $('#generated').hide();
-        processing = true;
-      }, 3000);
-    } catch (e) {
-      // debug(e);
-      console.log(e);
-    }
+  setAuraImage().then(function(){
+    generateImage().then(function(data){
+      try {
+        data = data.split(',')[1];
+        location.href = "app://" + data;
+        $('#generated').show();
+        setTimeout(function(){
+          $('#generated').hide();
+          processing = true;
+        }, 3000);
+      } catch (e) {
+        // debug(e);
+        console.log(e);
+      }
+    });
   });
 }
 
@@ -90,7 +92,7 @@ auras.map(function(auraId){
   frame.src = 'images/' + auraId + '.png';
   frame.onload = function() {
     console.log("preload: " + auraId);
-  }
+  };
 });
 
 function nextFrame() {
@@ -112,21 +114,28 @@ function prevFrame() {
 }
 
 // オーラ操作
-function setAura(auraId) {
-  var aura = document.getElementById('aura');
-  var ctx = aura.getContext('2d');
-  ctx.clearRect(0, 0, 550, 309);
-  if (auraId == 0) { return; }
-
-  var image = new Image();
-  image.src = 'images/aura' + auraId + '.png';
-  image.onload = function() {
-    ctx.globalAlpha = 1.0;
-    // ctx.globalAlpha = 0.8;
-    ctx.drawImage(image, 0, 0, 550, 309);
-  };
+var auraId = 0;
+function setAura(given) {
+  auraId = given;
 }
 
+function setAuraImage() {
+  return new Promise(function(resolve, reject){
+    var aura = document.getElementById('aura');
+    var ctx = aura.getContext('2d');
+    ctx.clearRect(0, 0, 550, 309);
+    if (auraId == 0) { return; }
+
+    var image = new Image();
+    image.src = 'images/aura' + auraId + '.png';
+    image.onload = function() {
+      ctx.globalAlpha = 1.0;
+      // ctx.globalAlpha = 0.8;
+      ctx.drawImage(image, 0, 0, 550, 309);
+      resolve();
+    };
+  });
+}
 
 // 以下 private
 
