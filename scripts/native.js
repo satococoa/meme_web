@@ -3,6 +3,19 @@ function init() {
   setFrame('jins');
 }
 
+var faces = [ ];
+function face(data) {
+  data = JSON.parse(data);
+  // 座標系の計算
+  faces = data.map(function(d){
+    var width = 1280.0;
+    var x = d[0] / width * 550.0;
+    var y = d[1] / width * 550.0;
+    var distance = d[2] / width * 550.0;
+    return [x, y, distance];
+  })
+}
+
 function capture(data) {
   var canvas = document.getElementById('image');
   var ctx = canvas.getContext('2d');
@@ -13,6 +26,7 @@ function capture(data) {
 
   img.onload = function() {
     ctx.drawImage(img, 0, 0, 550, 309);
+    addGlasses();
   };
 }
 
@@ -206,4 +220,22 @@ function generateImage() {
 function getGeneratedImage() {
   var generated = document.getElementById('generated');
   return generated.toDataURL('image/jpeg');
+}
+
+function addGlasses() {
+  return new Promise(function(resolve, reject){
+    var canvas = document.getElementById("image");
+    var ctx = canvas.getContext('2d');
+
+    var glasses = new Image();
+    var faceWidth = 130;
+    var faceHeight = 80;
+    glasses.onload = function(){
+      faces.forEach(function(d){
+        ctx.drawImage(glasses, d[0]-(faceWidth/2), d[1]-faceHeight+(faceHeight/8), faceWidth, faceHeight);
+      });
+      resolve();
+    };
+    glasses.src = "images/glasses.png";
+  });
 }
