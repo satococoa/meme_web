@@ -88,7 +88,7 @@ function setAura(auraId) {
   var image = new Image();
   image.src = 'images/aura' + auraId + '.png';
   image.onload = function() {
-    ctx.globalAlpha = 0.4;
+    ctx.globalAlpha = 0.8;
     ctx.drawImage(image, 0, 0, 550, 309);
   };
 }
