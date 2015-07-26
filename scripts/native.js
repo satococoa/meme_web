@@ -3,6 +3,19 @@ function init() {
   setFrame('jins');
 }
 
+var faces = [ ];
+function face(data) {
+  // 座標系の計算
+  faces = data.map(function(d){
+    var x = d[0] / 1280.0 * 550.0;
+    var y = d[1] / 1280.0 * 550.0;
+    var distance = d[2] / 1280.0 * 550.0;
+    return [x, y, distance];
+  })
+}
+// debug
+face([[372, 298, 46]]);
+
 function capture(data) {
   var canvas = document.getElementById('image');
   var ctx = canvas.getContext('2d');
@@ -13,6 +26,7 @@ function capture(data) {
 
   img.onload = function() {
     ctx.drawImage(img, 0, 0, 550, 309);
+    addGlasses();
   };
 }
 
@@ -198,7 +212,7 @@ function generateImage() {
         resolve();
       };
     });
-  })).then(addGlasses()).then(function(){
+  })).then(function(){
     return getGeneratedImage();
   });
 }
@@ -209,40 +223,19 @@ function getGeneratedImage() {
 }
 
 function addGlasses() {
-  var image = document.getElementById('sample');
-  var canvas = document.getElementById("output");
-  var ctx = canvas.getContext('2d');
-  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+  return new Promise(function(resolve, reject){
+    var canvas = document.getElementById("image");
+    var ctx = canvas.getContext('2d');
 
-  var comp = ccv.detect_objects({ "canvas" : (ccv.pre(canvas)),
-                                  "cascade" : cascade,
-                                  "interval" : 5,
-                                  "min_neighbors" : 1 });
-  var glasses = new Image();
-  glasses.onload = function(){
-    console.log(comp);
-    for (var i = 0; i < comp.length; i++) {
-      ctx.drawImage(glasses, comp[i].x, comp[i].y,comp[i].width, comp[i].height);
-    }
-  };
-  glasses.src = "images/glasses.png";
-
-  // return new Promise(function(resolve, reject){
-  //   var canvas = document.getElementById("image");
-  //   var ctx = canvas.getContext('2d');
-  //   var comp = ccv.detect_objects({ "canvas" : (ccv.pre(canvas)),
-  //                                   "cascade" : cascade,
-  //                                   "interval" : 5,
-  //                                   "min_neighbors" : 1 });
-  //   var glasses = new Image();
-  //   glasses.onload = function(){
-  //     console.log('glasses onload');
-  //     console.debug(comp);
-  //     for (var i = 0; i < comp.length; i++) {
-  //       ctx.drawImage(glasses, comp[i].x, comp[i].y,comp[i].width, comp[i].height);
-  //     }
-  //     resolve();
-  //   };
-  //   glasses.src = "images/glasses.png";
-  // });
+    var glasses = new Image();
+    var faceWidth = 160;
+    var faceHeight = 110;
+    glasses.onload = function(){
+      faces.forEach(function(d){
+        ctx.drawImage(glasses, d[0]/2, d[1]/2, faceWidth, faceHeight);
+      });
+      resolve();
+    };
+    glasses.src = "images/glasses.png";
+  });
 }
