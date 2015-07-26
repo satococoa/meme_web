@@ -1,4 +1,5 @@
 // 初期化処理
+var processing = true;
 function init() {
   setFrame('jins');
 }
@@ -17,6 +18,11 @@ function face(data) {
 }
 
 function capture(data) {
+  if (!processing) {
+    debug('skipping....');
+    return;
+  }
+
   var canvas = document.getElementById('image');
   var ctx = canvas.getContext('2d');
 
@@ -32,6 +38,7 @@ function capture(data) {
 
 // 撮影
 function takePicture() {
+  processing = false;
   shutter();
   generateImage().then(function(data){
     try {
@@ -40,6 +47,7 @@ function takePicture() {
       $('#generated').show();
       setTimeout(function(){
         $('#generated').hide();
+        processing = true;
       }, 1500);
     } catch (e) {
       // debug(e);
