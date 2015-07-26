@@ -5,6 +5,7 @@ function init() {
 
 var faces = [ ];
 function face(data) {
+  debug(data);
   // 座標系の計算
   faces = data.map(function(d){
     var x = d[0] / 1280.0 * 550.0;
@@ -13,8 +14,6 @@ function face(data) {
     return [x, y, distance];
   })
 }
-// debug
-face([[372, 298, 46]]);
 
 function capture(data) {
   var canvas = document.getElementById('image');
