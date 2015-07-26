@@ -82,14 +82,11 @@ function prevFrame() {
 function setAura(auraId) {
   var aura = document.getElementById('aura');
   var ctx = aura.getContext('2d');
-  if (auraId == 0) {
-    ctx.clearRect(0, 0, 550, 309);
-    return;
-  }
+  ctx.clearRect(0, 0, 550, 309);
+  if (auraId == 0) { return; }
 
   var image = new Image();
-  // image.src = 'images/aura' + auraId + '.png';
-  image.src = 'images/aura1.png';
+  image.src = 'images/aura' + auraId + '.png';
   image.onload = function() {
     ctx.drawImage(image, 0, 0, 550, 309);
   };
