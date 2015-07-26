@@ -18,10 +18,7 @@ function face(data) {
 }
 
 function capture(data) {
-  if (!processing) {
-    debug('skipping....');
-    return;
-  }
+  if (!processing) { return; }
 
   var canvas = document.getElementById('image');
   var ctx = canvas.getContext('2d');
@@ -48,7 +45,7 @@ function takePicture() {
       setTimeout(function(){
         $('#generated').hide();
         processing = true;
-      }, 1500);
+      }, 3000);
     } catch (e) {
       // debug(e);
       console.log(e);
@@ -110,7 +107,8 @@ function setAura(auraId) {
   var image = new Image();
   image.src = 'images/aura' + auraId + '.png';
   image.onload = function() {
-    ctx.globalAlpha = 0.8;
+    ctx.globalAlpha = 1.0;
+    // ctx.globalAlpha = 0.8;
     ctx.drawImage(image, 0, 0, 550, 309);
   };
 }
