@@ -179,6 +179,7 @@ function generateImage() {
 
   var generated = document.getElementById('generated');
   var ctx = generated.getContext('2d');
+  ctx.clearRect(0, 0, 550, 309);
 
   var datas = [
     image.toDataURL('image/png'),
