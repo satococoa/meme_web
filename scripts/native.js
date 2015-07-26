@@ -198,7 +198,7 @@ function generateImage() {
         resolve();
       };
     });
-  })).then(function(){
+  })).then(addGlasses()).then(function(){
     return getGeneratedImage();
   });
 }
@@ -206,4 +206,43 @@ function generateImage() {
 function getGeneratedImage() {
   var generated = document.getElementById('generated');
   return generated.toDataURL('image/jpeg');
+}
+
+function addGlasses() {
+  var image = document.getElementById('sample');
+  var canvas = document.getElementById("output");
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  var comp = ccv.detect_objects({ "canvas" : (ccv.pre(canvas)),
+                                  "cascade" : cascade,
+                                  "interval" : 5,
+                                  "min_neighbors" : 1 });
+  var glasses = new Image();
+  glasses.onload = function(){
+    console.log(comp);
+    for (var i = 0; i < comp.length; i++) {
+      ctx.drawImage(glasses, comp[i].x, comp[i].y,comp[i].width, comp[i].height);
+    }
+  };
+  glasses.src = "images/glasses.png";
+
+  // return new Promise(function(resolve, reject){
+  //   var canvas = document.getElementById("image");
+  //   var ctx = canvas.getContext('2d');
+  //   var comp = ccv.detect_objects({ "canvas" : (ccv.pre(canvas)),
+  //                                   "cascade" : cascade,
+  //                                   "interval" : 5,
+  //                                   "min_neighbors" : 1 });
+  //   var glasses = new Image();
+  //   glasses.onload = function(){
+  //     console.log('glasses onload');
+  //     console.debug(comp);
+  //     for (var i = 0; i < comp.length; i++) {
+  //       ctx.drawImage(glasses, comp[i].x, comp[i].y,comp[i].width, comp[i].height);
+  //     }
+  //     resolve();
+  //   };
+  //   glasses.src = "images/glasses.png";
+  // });
 }
